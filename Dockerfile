@@ -8,6 +8,7 @@ ENV SIGMAUSD_DATA_PATH="/sigmausd_data"
 # Add files
 ADD ./scripts/run.sh /run.sh
 ADD ./scripts/entrypoint.sh /entrypoint.sh
+ADD ./scripts/scheduler.txt /scheduler.txt
 
 RUN chmod +x /run.sh /entrypoint.sh
 
