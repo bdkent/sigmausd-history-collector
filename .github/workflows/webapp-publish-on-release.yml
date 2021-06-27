@@ -44,4 +44,19 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          
+      - name: Deploy package to digitalocean
+        uses: appleboy/ssh-action@master
+        env:
+            GITHUB_USERNAME: ${{ github.actor }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_KEY }}
+          port: ${{ secrets.DO_PORT }}
+          envs: GITHUB_USERNAME, GITHUB_TOKEN
+          script: |
+            docker login ghcr.io -u $GITHUB_USERNAME -p $GITHUB_TOKEN
+            docker pull ghcr.io/bdkent/sigmausd-history-collector:latest
+            docker stop $(docker ps -a -q)
+            docker run -dit ghcr.io/bdkent/sigmausd-history-collector:latest
