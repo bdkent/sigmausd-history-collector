@@ -59,4 +59,4 @@ jobs:
             docker login ghcr.io -u $GITHUB_USERNAME -p $GITHUB_TOKEN
             docker pull ghcr.io/bdkent/sigmausd-history-collector:latest
             docker stop $(docker ps -a -q)
-            docker run -dit ghcr.io/bdkent/sigmausd-history-collector:latest
+            docker run -v /mnt/sigmausd_data:/sigmausd_data -dit ghcr.io/bdkent/sigmausd-history-collector:latest
